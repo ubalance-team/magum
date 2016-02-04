@@ -368,23 +368,35 @@ Implementation of Sebastian Madgwick's algorithm, wich fuses acceleration, rotat
 ### Example:
 
 ```python
-qArray= magum.madgwickQuaternionFilter()
+qArray= magum.madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray)
 ```
 
 #UbalancedGraphs
-In order to use UbalancedGraphs you should install Frask framework. To do this you can run from terminal the following command: 
+In order to use UbalancedGraphs web application, you should install Frask framework. To do this you can run from terminal the following command: 
 
 ```bash
 pip install Flask
 ```
 
-To initialize, move (with your temrinal) in the directory where you downloaded this repo, get root privileges and run this command:
+To install Ubalanced graphs application, move to the main directory that you've cloned from remote magum repository, then move to the /UbalancedGraphs directory and run (as root):
 
 ```bash
-sudo su
-python setup.py
+sudo python setup.py
 ```
-Now, you can access to UbalancedGraphs from your favourite browser at this address (assuming you are connected to UDOO via USB): [192.168.7.2:5001](http://192.168.7.2)
+
+To start ubalanced graphs web app start the server as a service from terminal typing (make sure you are running as root):
+
+```bash
+sudo service ubalanced start
+```
+
+Now, you can access to UbalancedGraphs web application from your favourite browser at this address (assuming you are connected to UDOO via USB): [192.168.7.2:5001](http://192.168.7.2)
+
+To stop the service just type:
+
+```bash
+sudo service ubalanced stop
+```
 
 #Authors <a name="authors"></a>
 
