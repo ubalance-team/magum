@@ -372,6 +372,9 @@ qArray= magum.madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray)
 ```
 
 #UbalancedGraphs
+
+![ubalnced_graphs](http://s16.postimg.org/8cweat8gl/graphs_header.jpg)
+
 In order to use UbalancedGraphs web application, you should install Frask framework. To do this you can run from terminal the following command: 
 
 ```bash
