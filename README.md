@@ -45,6 +45,8 @@ This Python module has been created to manage the sensors on the main board comp
 
 # Introduction <a name="introduction"></a>
 
+Magum, that stands for Magnetometer, Accelerometer and Gyroscope UDOO Management, is a Python library that allows you to completely manage all three senors built in UDOO Neo. 
+
 ##The sensors <a name="the-sensors"></a>
 
 Below you can find a complete list of all sensors:
