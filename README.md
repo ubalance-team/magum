@@ -373,11 +373,7 @@ y_angle = magum.kalmanFilter(0.02,'y',AxisOffset)
 
 #Copyright <a name="copyright"></a>
 
-<<<<<<< HEAD
 Magum is under GPL licence. See [LICENSE](https://github.com/ubalance-team/magum/blob/master/LICENSE) file for the complete documentation
-=======
-Magum is under GPL licence. See [LICENCE](https://github.com/ubalance-team/magum/blob/master/LICENSE) file for the complete documentation
->>>>>>> 7baace9eeaacdc44d7717c60c28c2fe5b249f6dc
 
 
 
