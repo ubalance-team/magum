@@ -377,7 +377,14 @@ In order to use UbalancedGraphs you should install Frask framework. To do this y
 ```bash
 pip install Flask
 ```
-To initialize do setup.py in sudo
+
+To initialize, move (with your temrinal) in the directory where you downloaded this repo, get root privileges and run this command:
+
+```bash
+sudo su
+python setup.py
+```
+Now, you can access to UbalancedGraphs from your favourite browser at this address (assuming you are connected to UDOO via USB): [192.168.7.2:5001](http://192.168.7.2)
 
 #Authors <a name="authors"></a>
 
