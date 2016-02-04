@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <title>UbalancedGraphs</title>
+
+        <style>
+            .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+            .progress-bar-danger { background-color: #ff432e !important; }
+            .progress-bar-info { background-color: #6699ff !important; }
+            .progress-bar-success { background-color: #00ff00 !important; }
+        </style>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+        <!-- Font Awesome CSS -->
+        <link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet">
+		
+		<!-- Custom CSS -->
+        <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+    
+    <body>
+        
+        <!-- Start Logo Section -->
+        <section id="logo-section" class="text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="logo text-center">
+                            <h1>Ubalanced Graphs</h1>
+                            <span>
+                            <svg id="fillgauge2" width="100%" height="80"></svg>
+                            <strong id="temp" style="color: #fff; cursor: default;">Temperature</strong>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Logo Section -->
+        
+        
+        <!-- Start Main Body Section -->
+        <div class="mainbody-section text-center" style="cursor: pointer;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="menu-item blue" id="acc">
+                            <a>
+                                <i class="fa fa-shield"></i>
+                                <p>Accelerometer</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="menu-item light-red" id="gyr">
+                            <a>
+                                <i class="fa fa-clock-o"></i>
+                                <p>Gyro</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">   
+                        <div class="menu-item green" id="mag">
+                            <a>
+                                <i class="fa fa-magnet"></i>
+                                <p>Magnetometer</p>
+                            </a>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="menu-item color">
+                            <a href="http://magum.ml" target="_blank">
+                                <i class="fa fa-magic"></i>
+                                <p>Magum Docs</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">   
+                        <div class="menu-item" style="background-color: #9B59B6;">
+                            <a href="http://github.com/ubalance-team/magum" target="_blank">
+                                <i class="fa fa-code-fork"></i>
+                                <p>Fork us on Github</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">   
+                        <div class="menu-item light-orange">
+                            <a href="#about-modal" data-toggle="modal">
+                                <i class="fa fa-users"></i>
+                                <p>About Us</p>
+                            </a>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <!-- End Main Body Section -->
+        
+        <!-- Start Copyright Section -->
+        <div class="copyright text-center" id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>Developed by <a href="http://github.com/ubalance-team" target="_blank">Ubalance-team</a> ©</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Copyright Section -->
+        
+        
+        <!-- Start Accelerometer Section -->
+        <div class="section-modal modal fade" id="acc-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h1 id="sens-text"></h1>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                    <label class="btn btn-primary active">
+                                        <input type="radio" name="options" id="bar" autocomplete="off" checked> Bar
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="options" id="smoothie" autocomplete="off"> Smoothie
+                                    </label>
+                                </div>
+                            </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                           <div id="bar-accelerometer" style="width:100%;"></div>
+                           <canvas id="smoothie-accelerometer" width="1170" height="200" style="display: none; margin-left: -13px"></canvas>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row" style="display: none;" id="bars">
+                        <div class="col-md-12">
+                            <p id="xlabl">x:</p>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" id="x-prog" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p id="ylabl">y:</p> 
+                            <div class="progress">
+                                <div id="y-prog" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p id="zlabl">z:</p>  
+                            <div class="progress">
+                                <div class="progress">
+                                    <div id="z-prog" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <!-- End Accelerometer Section -->
+        
+        <!-- Start About Us Section -->
+        <div class="section-modal modal fade" id="about-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="section-title text-center">
+                            <h3>About the project</h3>
+                            <p>Duis aute irure dolor in reprehenderit in voluptate</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="about-text">
+                                <p style="text-align: center;">The project borned at the University of Siena, department of Information Technology Engeneering. <br/> The web application provides a graphic understanding of the values retrieved from motion sensors built in UDOO Neo. You can have a better understanding of the accelerometer, gyroscope, magneotmeter and temperature measures, choosing between a smoothie view or a bar graph. <br/> The application works thanks to the MAGUM, a python library that fully manages all the UDOO's sensors (visit our site <a style="color:blue;" href="http://www.magum.ml" target="_blank">here</a>). The backend is realized in Python language with the use of Flask framework.     </p>
+                               
+                                
+                            </div>
+                        </div>
+                    </div><!-- /.row -->
+                    
+                   
+                    <div class="row">
+                        <div class="col-md-3">
+                            
+                        </div>
+                        <div class="col-md-6">
+                               <table style="text-align:center;" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:22px" align="left">Name</th>
+                                            <th style="width:60%; font-size:22px;" align="left">Twitter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td align="left" style="font-size: 20px">Francesco Guerri</td>
+                                            <td style="width:60%"><a href="https://twitter.com/rirri93"><img alt="g_tweet" src="https://g.twimg.com/about/feature-corporate/image/tweetbutton.png" style="width: 20%"/></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size: 20px">Francesco Orlandi</td>
+                                            <td style="width:60%"><a href="https://twitter.com/0rla3"><img alt="o_tweet" src="https://g.twimg.com/about/feature-corporate/image/tweetbutton.png" style="width: 20%"/></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="font-size: 20px">Umberto Cucini</td>
+                                            <td style="width:60%"><a href="https://twitter.com/umbertocucini"><img alt="c_tweet" src="https://g.twimg.com/about/feature-corporate/image/tweetbutton.png" style="width: 20%"/></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <div class="col-md-3">
+                            
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                     <div class="row">
+                        <div class="col-md-6" style="text-align:left;">
+                            <ul>
+                                <li><strong>smbus library:</strong> <a style="color:blue;" href="https://github.com/bivab/smbus-cffi" target="_blank">github.com/bivab/smbus-cffi</a></li>
+                                <li><strong>MAGUM library:</strong> <a style="color:blue;" href="https://github.com/ubalance-team/magum" target="_blank">github.com/ubalance-team/magum</a></li>
+                                <li><strong>Canvas JS:</strong> <a style="color:blue;" href="http://canvasjs.com/" target="_blank">canvasjs.com/</a></li>
+                                <li><strong>D3.js:</strong> <a style="color:blue;" href="http://d3js.org/" target="_blank">d3js.org/</a></li>
+                                <li><strong>Smoothie graph:</strong> <a style="color:blue;" href="http://smoothiecharts.org/" target="_blank">smoothiecharts.org/</a></li>
+                                <li><strong>UDOO Neo:</strong> <a style="color:blue;" href="http://www.udoo.org/udoo-neo/" target="_blank">udoo.org/udoo-neo/</a></li>
+                               
+                                
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            
+                        </div>
+                        <div class="col-md-3">
+                            
+                        </div>
+                    </div>
+                    
+                
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="skill-shortcode">
+                                                 
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- End About Us Section -->
+
+        <!-- Template js -->
+        <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.appear.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/contact_me.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/modernizr.custom.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+        <!-- Vendor -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/canvasjs.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/smoothie.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/d3.v3.min.js') }}"></script>
+        <!-- Custom -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/smoothie-accelerometer.js') }}"></script>
+ 
+        <script type="text/javascript" src="{{ url_for('static', filename='js/liquid-temp.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </body>
+    
+</html>

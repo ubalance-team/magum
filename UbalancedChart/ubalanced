@@ -1,0 +1,12 @@
+case "$1" in
+
+start)
+	python /home/udooer/ubalanced-graphs/ubalanced.py &
+	echo "Ubalanced started!"
+	;;
+stop)
+	ps axf | grep python\ /home/udooer/ubalanced-graphs/ubalanced.py | grep -v grep | awk '{print "kill -9 " $1}' | sh
+	echo "Ubalanced Stopped"
+	;;
+
+esac
