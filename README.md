@@ -37,6 +37,8 @@ This Python module has been created to manage the sensors on the main board comp
     - [calibrateSens](#calibratesens)
     - [compFilter](#complementaryfilter)
     - [kalmanFilter](#kalmanfilter)
+    - [madgwickQuaternionFilter](#madgwickQuaternionFilter)
+* [UbalancedGraphs](#ubalancedgraphs)
 * [Authors](#authors) 
 * [Copyright](#copyright)
 
@@ -355,15 +357,36 @@ x_angle = magum.kalmanFilter(0.02,'x',AxisOffset)
 y_angle = magum.kalmanFilter(0.02,'y',AxisOffset)
 ```
 
+## madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray) <a name="madgwickQuaternionFilter"></a>
+Implementation of Sebastian Madgwick's algorithm, wich fuses acceleration, rotation rate and magnetic moments to produce a quaternion-based estimate of absolute device orientation. Return an array filled with quaternions (q1, q2, q3,q4)
+
+### Parameters:
+* **aCompArray:** array of accelerometer g-components axis values 
+* **gCompArray:** array of gyroscope axis values in rad/s
+* **mCompArray:** array of magnetometer axis values in μT
+
+### Example:
+
+```python
+qArray= magum.madgwickQuaternionFilter()
+```
+
+#UbalancedGraphs
+In order to use UbalancedGraphs you should install Frask framework. To do this you can run from terminal the following command: 
+
+```bash
+pip install Flask
+```
+To initialize do setup.py in sudo
+
 #Authors <a name="authors"></a>
 
 
-| Name               | Twitter    	  |
+| Name               | Twitter    	      |
 |:-------------------|:-------------------|
 | Francesco Guerri   |[![g_tweet][1l]][2l]|
 | Francesco Orlandi  |[![o_tweet][1l]][3l]|
 | Umberto Cucini     |[![c_tweet][1l]][4l]|
-
 
 
 [1l]: http://s15.postimg.org/dj8qlfb2v/tweetbutton.png)
@@ -374,6 +397,9 @@ y_angle = magum.kalmanFilter(0.02,'y',AxisOffset)
 #Copyright <a name="copyright"></a>
 
 Magum is under GPL licence. See [LICENSE](https://github.com/ubalance-team/magum/blob/master/LICENSE) file for the complete documentation
+
+
+
 
 
 
