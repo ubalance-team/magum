@@ -477,6 +477,8 @@ class Magum:
 			
 	
 	# Kalman Filter
+	# Note: this algorithm is under development, it may not work properly like a common Kalman Filter
+	# If you want to improve this algorithm join us on github at https://github.com/ubalance-team/magum
 	def kalmanFilter(self,DT,axis,axisOffset):
 		exTime = 0.012 # execution time
 		if DT < exTime:
