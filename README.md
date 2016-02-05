@@ -37,11 +37,15 @@ This Python module has been created to manage the sensors on the main board comp
     - [calibrateSens](#calibratesens)
     - [compFilter](#complementaryfilter)
     - [kalmanFilter](#kalmanfilter)
+    - [madgwickQuaternionFilter](#madgwickQuaternionFilter)
+* [UbalancedGraphs](#ubalancedgraphs)
 * [Authors](#authors) 
 * [Copyright](#copyright)
 
 
 # Introduction <a name="introduction"></a>
+
+Magum, that stands for Magnetometer, Accelerometer and Gyroscope UDOO Management, is a Python library that allows you to completely manage all three senors built in UDOO Neo. 
 
 ##The sensors <a name="the-sensors"></a>
 
@@ -355,15 +359,58 @@ x_angle = magum.kalmanFilter(0.02,'x',AxisOffset)
 y_angle = magum.kalmanFilter(0.02,'y',AxisOffset)
 ```
 
+## madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray) <a name="madgwickQuaternionFilter"></a>
+Implementation of Sebastian Madgwick's algorithm, wich fuses acceleration, rotation rate and magnetic moments to produce a quaternion-based estimate of absolute device orientation. Return an array filled with quaternions (q1, q2, q3,q4)
+
+### Parameters:
+* **aCompArray:** array of accelerometer g-components axis values 
+* **gCompArray:** array of gyroscope axis values in rad/s
+* **mCompArray:** array of magnetometer axis values in μT
+
+### Example:
+
+```python
+qArray= magum.madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray)
+```
+
+#UbalancedGraphs
+
+![ubalnced_graphs](http://s16.postimg.org/8cweat8gl/graphs_header.jpg)
+
+In order to use UbalancedGraphs web application, you should install Frask framework. To do this you can run from terminal the following command: 
+
+```bash
+pip install Flask
+```
+
+To install Ubalanced graphs application, move to the main directory that you've cloned from remote magum repository, then move to the /UbalancedGraphs directory and run (as root):
+
+```bash
+sudo python setup.py
+```
+
+To start ubalanced graphs web app start the server as a service from terminal typing (make sure you are running as root):
+
+```bash
+sudo service ubalanced start
+```
+
+Now, you can access to UbalancedGraphs web application from your favourite browser at this address (assuming you are connected to UDOO via USB): [192.168.7.2:5001](http://192.168.7.2)
+
+To stop the service just type:
+
+```bash
+sudo service ubalanced stop
+```
+
 #Authors <a name="authors"></a>
 
 
-| Name               | Twitter    	  |
+| Name               | Twitter    	      |
 |:-------------------|:-------------------|
 | Francesco Guerri   |[![g_tweet][1l]][2l]|
 | Francesco Orlandi  |[![o_tweet][1l]][3l]|
 | Umberto Cucini     |[![c_tweet][1l]][4l]|
-
 
 
 [1l]: http://s15.postimg.org/dj8qlfb2v/tweetbutton.png)
@@ -373,11 +420,10 @@ y_angle = magum.kalmanFilter(0.02,'y',AxisOffset)
 
 #Copyright <a name="copyright"></a>
 
-<<<<<<< HEAD
 Magum is under GPL licence. See [LICENSE](https://github.com/ubalance-team/magum/blob/master/LICENSE) file for the complete documentation
-=======
-Magum is under GPL licence. See [LICENCE](https://github.com/ubalance-team/magum/blob/master/LICENSE) file for the complete documentation
->>>>>>> 7baace9eeaacdc44d7717c60c28c2fe5b249f6dc
+
+
+
 
 
 
