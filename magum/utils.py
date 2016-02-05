@@ -33,16 +33,16 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 	if sensor == 'a':
 		currScale = Object.read_byte_data(I2C_AM_ADDRESS,A_XYZ_DATA_CFG)
 		if currScale%4 == 0: # last two bits are setted to 0b00 (2g mode)
-			sensitivity = 4096
+			# sensitivity = 4096
 			factor = 1
 		elif currScale%2 != 0 and (currScale+1)%4 != 0: # last two bits are setted to 0b01 (4g mode)
-			sensitivity = 2048
+			# sensitivity = 2048
 			factor = 2
 		elif currScale%2 != 0 and (currScale+1)%4 == 0: # last two bits are setted to 0b11 (reserved)
 			print 'Error: this bit configuration is reserved to the sensor'
 			sys.exit(1)
 		else: # last two bits are setted to 0b10 (8g mode)
-			sensitivity = 1024
+			# sensitivity = 1024
 			factor = 4
 
 		if axisList[0] >= 32768:
@@ -95,8 +95,15 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 
 	if sensor == 'm':
 		sensitivity = 0.1
+		if axisList[0] >= 32768:
+			axisList[0] -= 65536
+		if axisList[1] >= 32768:
+			axisList[1] -= 65536
+		if axisList[2] >= 32768:
+			axisList[2] -= 65536
 		if uM in (None,'raw'):
 			return axisList
+
 		elif uM == 'ut':
 			axisList[0] = ((axisList[0]/4)*sensitivity)
 			axisList[1] = ((axisList[0]/4)*sensitivity)
@@ -112,6 +119,13 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 		else:
 			ctrlDouble = 1	
 
+		if axisList[0] >= 32769:
+			axisList[0] = axisList[0] - 65535
+		if axisList[1] >= 32769:
+			axisList[1] = axisList[1] - 65535
+		if axisList[2] >= 32769:				
+			axisList[2] = axisList[2] - 65535
+
 		if uM in (None,'raw'):
 			return axisList
 		elif uM in ('degs','rads'):
@@ -123,13 +137,6 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 				sensitivity = 7.8125 * ctrlDouble / 1000
 			else: # last two bits are setted to 0b10 (+/- 500/1000 mode)
 				sensitivity = 15.625 * ctrlDouble / 1000
-
-			if axisList[0] >= 32769:
-				axisList[0] = axisList[0] - 65535
-			if axisList[1] >= 32769:
-				axisList[1] = axisList[1] - 65535
-			if axisList[2] >= 32769:				
-				axisList[2] = axisList[2] - 65535
 
 			axisList[0] = -(axisList[0]*sensitivity)
 			axisList[1] = -(axisList[1]*sensitivity)
