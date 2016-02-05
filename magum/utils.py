@@ -105,9 +105,9 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 			return axisList
 
 		elif uM == 'ut':
-			axisList[0] = ((axisList[0]/4)*sensitivity)
-			axisList[1] = ((axisList[0]/4)*sensitivity)
-			axisList[2] = ((axisList[0]/4)*sensitivity)
+			axisList[0] = ((axisList[0])*sensitivity)
+			axisList[1] = ((axisList[0])*sensitivity)
+			axisList[2] = ((axisList[0])*sensitivity)
 			return axisList
 
 
