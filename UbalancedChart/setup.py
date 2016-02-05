@@ -48,4 +48,4 @@ time.sleep(1)
 
 print 'Starting web application...'
 os.system('python /home/udooer/ubalanced-graphs/ubalanced.py &')
-print 'Sarted at http://localhost:5001'
+print 'Started at http://localhost:5001'
