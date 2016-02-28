@@ -2,7 +2,7 @@
 #!/usr/bin/python
 
 """
-MAGUM python module (Beta 0.9.1)
+MAGUM python module (Beta 1.0.1)
 
 MAGUM stands for (Magnetometer, Accelerometer and Gyroscope Udoo Management)
 it includes some modules such as smbus, time, os, sys, subprocess etc.. to manage the udoo-neo 
@@ -404,12 +404,11 @@ class Magum:
 	def compFilter(self,DT,axisOffset):
 		exTime = 0.013 # execution time
 		if DT < exTime:
-			print "Error: DT is too small to sample the accelerometer and gyroscope data.\nDT must be greater than 0.015."
+			print "Error: DT is too small to sample the accelerometer and gyroscope data.\nDT must be greater than 0.013."
 			sys.exit(1)
 		else:
 			if self._calibrated == True:
 				highPass = DT / (DT + exTime)
-				aux = 0
 				rate_gyr = array('i',[])
 				acc_angle = array('i',[])
 
@@ -451,21 +450,14 @@ class Magum:
 				gyrXangle = float((rate_gyr[0] - axisOffset[3]) * gFactor)
 				gyrYangle = float((rate_gyr[1] - axisOffset[4]) * gFactor)
 				gyrZangle = float((rate_gyr[2] - axisOffset[5]) * gFactor)
-				
-				if aux == 0:
-					cFAngleX = float(accXangle)
-					cFAngleY = float(accYangle)
-					cFAngleZ = float(accZangle)
-				else:
-					cFAngleX = (highPass) * (cFAngleX + gyrXangle * DT) + (1-highPass)*(accXangle)
-					cFAngleY = (highPass) * (cFAngleY + gyrYangle * DT) + (1-highPass)*(accYangle)
-					cFAngleZ = (highPass) * (cFAngleZ + gyrZangle * DT) + (1-highPass)*(accZangle)
+
+				cFAngleX = (highPass) * (cFAngleX + gyrXangle * DT) + (1-highPass)*(accXangle)
+				cFAngleY = (highPass) * (cFAngleY + gyrYangle * DT) + (1-highPass)*(accYangle)
+				cFAngleZ = (highPass) * (cFAngleZ + gyrZangle * DT) + (1-highPass)*(accZangle)
 
 				cFAngleAxis.insert(0,cFAngleX)
 				cFAngleAxis.insert(1,cFAngleY*(-1))
 				cFAngleAxis.insert(2,cFAngleZ*(-1))
-
-				aux += 1
 				
 				time.sleep(DT-exTime)
 

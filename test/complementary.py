@@ -12,7 +12,7 @@ axisOffset = magum.calibrateSens(1000)
 
 while True:
 	try:
-		cFAngleAxis = magum.compFilter(DT,axisOffset)
+		cFAngleAxis = magum.compFilter(DT,axisOffset) # Note: it might need a small time amount to get up to speed
 	except IOError: #  avoid timeout errors
 		pass
 
