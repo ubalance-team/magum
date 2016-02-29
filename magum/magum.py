@@ -2,7 +2,7 @@
 #!/usr/bin/python
 
 """
-MAGUM python module (Beta 1.0.1)
+MAGUM python module (Beta 1.1.0)
 
 MAGUM stands for (Magnetometer, Accelerometer and Gyroscope Udoo Management)
 it includes some modules such as smbus, time, os, sys, subprocess etc.. to manage the udoo-neo 
@@ -38,6 +38,7 @@ class Magum:
 	accScale = None
 	gyrScale = None
 	gyrDouble = None
+	compAux = 0
 
 	def __init__(self,gScaleRange=None,fsDouble=None,aScaleRange=None,noise=None):
 		self.killDrivers(1)
@@ -451,9 +452,15 @@ class Magum:
 				gyrYangle = float((rate_gyr[1] - axisOffset[4]) * gFactor)
 				gyrZangle = float((rate_gyr[2] - axisOffset[5]) * gFactor)
 
-				cFAngleX = (highPass) * (cFAngleX + gyrXangle * DT) + (1-highPass)*(accXangle)
-				cFAngleY = (highPass) * (cFAngleY + gyrYangle * DT) + (1-highPass)*(accYangle)
-				cFAngleZ = (highPass) * (cFAngleZ + gyrZangle * DT) + (1-highPass)*(accZangle)
+				if compAux == 0:					# Only for the first time we get the position
+					cFAnglex = float(accXangle)
+					cFAngleY = float(accYangle)
+					cFAngleZ = float(accZangle)
+					compAux = 1
+				else:								# Then we use the Complementary Filter
+					cFAngleX = (highPass) * (cFAngleX + gyrXangle * DT) + (1-highPass)*(accXangle)
+					cFAngleY = (highPass) * (cFAngleY + gyrYangle * DT) + (1-highPass)*(accYangle)
+					cFAngleZ = (highPass) * (cFAngleZ + gyrZangle * DT) + (1-highPass)*(accZangle)
 
 				cFAngleAxis.insert(0,cFAngleX)
 				cFAngleAxis.insert(1,cFAngleY*(-1))
