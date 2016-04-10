@@ -38,7 +38,14 @@ class Magum:
 	accScale = None
 	gyrScale = None
 	gyrDouble = None
+	# Complementary Filter Attributes
 	compAux = 0
+	_cFAngleX = 0
+	_cFAngleY = 0
+	_cFAngleZ = 0
+
+	compAux = 0
+
 
 	def __init__(self,gScaleRange=None,fsDouble=None,aScaleRange=None,noise=None):
 		self.killDrivers(1)
@@ -447,6 +454,28 @@ class Magum:
 				accXangle = math.atan(x/math.sqrt(y2+z2))*(180/math.pi)
 				accYangle = math.atan(y/math.sqrt(x2+z2))*(180/math.pi)
 				accZangle = math.atan(z/math.sqrt(x2+y2))*(180/math.pi)
+
+				gyrXangle = float(((rate_gyr[0] - axisOffset[3]) * gFactor)/DT)
+				gyrYangle = float(((rate_gyr[1] - axisOffset[4]) * gFactor)/DT)
+				gyrZangle = float(((rate_gyr[2] - axisOffset[5]) * gFactor)/DT)
+
+				modGyr = (gyrXangle*gyrXangle) + (gyrYangle*gyrYangle) + (gyrZangle*gyrZangle)
+
+				# Only for the first time we get the position or if the base doesn't move
+				#if self.compAux == 0 || (math.fabs(gyrXangle) <= 5 && math.fabs(gyrYangle) <= 5 && math.fabs(gyrZangle) <= 5):
+				if self.compAux == 0:
+					self._cFAngleX = float(accXangle)
+					self._cFAngleY = float(accYangle)
+					self._cFAngleZ = float(accZangle)
+					self.compAux = 1
+				else:													# Then we use the Complementary Filter
+					self._cFAngleX = (highPass) * (self._cFAngleX + gyrXangle * DT) + (1-highPass)*(accXangle)
+					self._cFAngleY = (highPass) * (self._cFAngleY + gyrYangle * DT) + (1-highPass)*(accYangle)
+					self._cFAngleZ = (highPass) * (self._cFAngleZ + gyrZangle * DT) + (1-highPass)*(accZangle)
+
+				cFAngleAxis.insert(0,self._cFAngleX)
+				cFAngleAxis.insert(1,self._cFAngleY*(-1))
+				cFAngleAxis.insert(2,self._cFAngleZ*(-1))
 
 				gyrXangle = float((rate_gyr[0] - axisOffset[3]) * gFactor)
 				gyrYangle = float((rate_gyr[1] - axisOffset[4]) * gFactor)
