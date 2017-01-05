@@ -128,7 +128,7 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 
 		if uM in (None,'raw'):
 			return axisList
-		elif uM in ('degs','rads'):
+		elif uM in ('deg','rad'):
 			if currScale%4 == 0: # last two bits are setted to 0b00 (+/- 2000/4000 mode)
 				sensitivity = 62.5 * ctrlDouble / 1000
 			elif currScale%2 != 0 and (currScale+1)%4 == 0: # last two bits are setted to 0b01 (+/- 1000/2000 mode)
@@ -142,7 +142,7 @@ def _dataConvertion(Object,sensor,axisList,uM=None):
 			axisList[1] = -(axisList[1]*sensitivity)
 			axisList[2] = (axisList[2]*sensitivity)
 
-			if uM == ('rads'):
+			if uM == ('rad'):
 				axisList[0] = math.radians(axisList[0])
 				axisList[1] = math.radians(axisList[1])
 				axisList[2] = math.radians(axisList[2])
