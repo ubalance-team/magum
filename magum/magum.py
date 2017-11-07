@@ -583,7 +583,7 @@ class Magum:
 	# (see http://www.x-io.co.uk/category/open-source/ for examples and more details)
 	# which fuses acceleration, rotation rate, and magnetic moments to produce a quaternion-based estimate of absolute
 	# device orientation
-	def madgwickQuaternionFilter(aCompArray,gCompArray,mCompArray):
+	def madgwickQuaternionFilter(self,aCompArray,gCompArray,mCompArray):
 		ax = aCompArray[0]
 		ay = aCompArray[1]
 		az = aCompArray[2]
